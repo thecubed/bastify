@@ -14,8 +14,6 @@ type socksServer struct {
 	Dial func(ctx context.Context, net, addr string) (net.Conn, error)
 }
 
-type server socks5.Server
-
 func (s *socksServer) Serve(addr string) error {
 	l, err := net.Listen("tcp", addr)
 	if err != nil {
@@ -37,10 +35,6 @@ func (s *socksServer) Serve(addr string) error {
 }
 
 func (s *socksServer) Rewrite(ctx context.Context, request *socks5.Request) (context.Context, *socks5.AddrSpec) {
-	//remotePort := s.remotePort
-	//if remotePort == "" {
-	//	remotePort = request.AuthContext.Payload["Username"]
-	//}
 	ctx = context.WithValue(ctx, ctxKeyBastionHost, request.AuthContext.Payload["Username"])
 	ctx = context.WithValue(ctx, ctxKeyBastionPort, request.AuthContext.Payload["Password"])
 	return ctx, request.DestAddr

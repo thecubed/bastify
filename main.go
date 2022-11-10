@@ -15,7 +15,7 @@ import (
 var opts struct {
 	ListenHost     string        `short:"l" long:"listen-host" description:"SOCKS5 listen host" default:"127.0.0.1"`
 	ListenPort     string        `short:"p" long:"listen-port" description:"SOCKS5 listen port." default:"5101"`
-	SshUser        string        `short:"u" long:"user" description:"bastion SSH username. Leave blank to use current user name." optional:"true"`
+	SshUser        string        `short:"u" long:"user" description:"Bastion SSH username. Leave blank to use current user name." optional:"true"`
 	SshKeyFile     string        `short:"k" long:"key-file" description:"Private key file to use when authenticating with bastion hosts. Leave unset to rely on SSH agent." optional:"true"`
 	IdleClose      time.Duration `short:"t" long:"idle-close" description:"Idle timeout before closing bastion SSH connection." default:"4h"`
 	Retries        int           `short:"r" long:"max-retries" description:"Maximum retries for a port forward through a bastion SSH connection" default:"2"`
@@ -63,7 +63,6 @@ func main() {
 	} else if verbosity >= 1 {
 		log.SetLevel(log.TraceLevel)
 	}
-	log.Infof("Log level %d", verbosity)
 
 	// set up default ssh username from env if not provided on flags
 	if opts.SshUser == "" {
